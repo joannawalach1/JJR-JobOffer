@@ -21,6 +21,6 @@ public class MongoConfig {
     @Bean
     public MongoTemplate mongoTemplate() {
         logger.info("MongoDbConfig finished...");
-        return new MongoTemplate(mongoClient(), "lottodb");
+        return new MongoTemplate(mongoClient(), "jobOffers");
     }
 }

@@ -2,12 +2,15 @@ package pl.juniorjavaready.domain.offer;
 
 import lombok.Builder;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.Field;
 
 @Builder
-public record JobOffer(   @Id
+@Document(collection = "job_offers")
+public record JobOffer(@Id
                           int id,
-                          String company,
-                          String title,
-                          String salary,
-                          String offerUrl) {
+                          @Field String company,
+                          @Field String title,
+                          @Field String salary,
+                          @Field String offerUrl) {
 }
