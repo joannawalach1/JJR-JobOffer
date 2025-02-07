@@ -1,4 +1,4 @@
-package pl.juniorjavaready.infrastructure.controller.offer;
+package pl.juniorjavaready.infrastructure.offer.controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import org.springframework.http.HttpStatus;
@@ -7,10 +7,10 @@ import org.springframework.web.bind.annotation.*;
 import pl.juniorjavaready.domain.offer.JobOffer;
 import pl.juniorjavaready.domain.offer.JobOfferFacade;
 import pl.juniorjavaready.domain.offer.dto.JobOfferDto;
+import pl.juniorjavaready.domain.offer.dto.JobOfferResponse;
 
 import java.util.Collections;
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/jobOffers")

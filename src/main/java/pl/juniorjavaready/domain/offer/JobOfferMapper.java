@@ -10,8 +10,8 @@ public class JobOfferMapper {
         public static JobOfferDto toDto(JobOffer jobOffer) {
             return JobOfferDto.builder()
                     .id(jobOffer.id())
+                    .title(jobOffer.title())
                     .company(jobOffer.company())
-                    .position(jobOffer.title())
                     .salary(jobOffer.salary())
                     .offerUrl(jobOffer.offerUrl())
                     .build();
@@ -20,8 +20,8 @@ public class JobOfferMapper {
         public static JobOffer ToEntity(JobOfferDto jobOfferDto) {
             return JobOffer.builder()
                     .id(jobOfferDto.id())
+                    .title(jobOfferDto.title())
                     .company(jobOfferDto.company())
-                    .title(jobOfferDto.position())
                     .salary(jobOfferDto.salary())
                     .offerUrl(jobOfferDto.offerUrl())
                     .build();

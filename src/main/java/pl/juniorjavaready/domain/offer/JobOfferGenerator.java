@@ -4,14 +4,14 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.web.client.RestTemplate;
-import pl.juniorjavaready.infrastructure.http.offer.JobOfferFetcher;
+import pl.juniorjavaready.infrastructure.offer.http.JobOfferFetcher;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class JobOfferGenerator {
     public final JobOfferFetcher jobOfferFetcher = new JobOfferFetcher(new RestTemplate());
-    private static final String BASE_URL = "http://ec2-3-120-147-150.eu-central-1.compute.amazonaws.com:5057/offers";
+    private static final String BASE_URL = "http://ec2-3-120-147-150.eu-central-1.compute.amazonaws.com:9090/offers";
     public int lastTicketId = 0;
 
     public List<JobOffer> createJobOffers() throws JsonProcessingException {

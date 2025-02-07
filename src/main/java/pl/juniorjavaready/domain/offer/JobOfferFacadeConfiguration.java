@@ -13,7 +13,6 @@ public class JobOfferFacadeConfiguration {
     }
     @Bean
     public JobOfferFacade jobOfferFacade(JobOfferRepository jobOfferRepository, JobOfferGenerator jobOfferGenerator) {
-        JobOfferIdGenerator jobOfferIdGenerator = new JobOfferIdGenerator();
         return new JobOfferFacade(
                 jobOfferGenerator,
                 jobOfferRepository

@@ -1,4 +1,4 @@
-package pl.juniorjavaready.infrastructure.http.offer;
+package pl.juniorjavaready.infrastructure.offer.http;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
