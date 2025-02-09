@@ -11,7 +11,7 @@ import java.util.List;
 
 public class JobOfferGenerator {
     public final JobOfferFetcher jobOfferFetcher = new JobOfferFetcher(new RestTemplate());
-    private static final String BASE_URL = "http://ec2-3-120-147-150.eu-central-1.compute.amazonaws.com:9090/offers";
+    private static final String BASE_URL = "http://ec2-3-120-147-150.eu-central-1.compute.amazonaws.com:5057/offers";
     public int lastTicketId = 0;
 
     public List<JobOffer> createJobOffers() throws JsonProcessingException {

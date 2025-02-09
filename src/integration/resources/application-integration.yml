@@ -2,4 +2,6 @@ http:
   offer:
     scheduler:
       request:
-        delay: PT30M
+        delay: PT10S
+scheduling:
+  enabled: false

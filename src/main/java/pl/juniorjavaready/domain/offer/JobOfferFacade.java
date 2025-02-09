@@ -28,7 +28,7 @@ public class JobOfferFacade {
             JobOffer savedJobOffer = jobOfferRepository.save(jobOfferWithNewId);
             savedJobOffers.add(savedJobOffer);
         }
-        log.info(savedJobOffers.toString());
+        log.info("Saved job offers: {}", savedJobOffers);
         return savedJobOffers;
     }
 
@@ -36,7 +36,7 @@ public class JobOfferFacade {
         return jobOfferRepository.findAll();
     }
 
-    public List<JobOffer> fetchAllOffersIFNotExists() throws JsonProcessingException {
+    public List<JobOffer> fetchAllOffersIfNotExists() throws JsonProcessingException {
         List<JobOffer> allJobOffers = fetchAllOffers();
 
         return allJobOffers.stream()

@@ -1,12 +1,12 @@
 server:
-  port: 8085
+  port: 8089
 
 spring:
   main:
     allow-bean-definition-overriding: true
   data:
     mongodb:
-      uri: mongodb://admin:admin@localhost:8087/jobOffers
+      uri: mongodb://admin:admin@localhost:8088/jobOffers
       auto-index-creation: true
   mvc:
     pathmatch:
@@ -16,6 +16,10 @@ http:
     scheduler:
       request:
        delay: PT10M
+
+scheduling:
+  enabled: true
+
 offer:
   http:
     client:

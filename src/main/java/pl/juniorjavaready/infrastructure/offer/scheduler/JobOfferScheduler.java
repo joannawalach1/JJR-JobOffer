@@ -17,9 +17,10 @@ public class JobOfferScheduler {
     private final JobOfferFacade jobOfferFacade;
 
     @Scheduled(fixedDelayString = "${http.offer.scheduler.request.delay}")
-    public void scheduleJobOffers() throws JsonProcessingException {
+    public List<JobOffer> scheduleJobOffers() throws JsonProcessingException {
         log.info("Scheduler started");
         List<JobOffer> jobOffers = jobOfferFacade.fetchAllOffers();
         log.info("Offers added{}", jobOffers);
+        return jobOffers;
     }
 }

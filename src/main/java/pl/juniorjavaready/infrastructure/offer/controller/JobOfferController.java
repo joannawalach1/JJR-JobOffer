@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.*;
 import pl.juniorjavaready.domain.offer.JobOffer;
 import pl.juniorjavaready.domain.offer.JobOfferFacade;
 import pl.juniorjavaready.domain.offer.dto.JobOfferDto;
+import pl.juniorjavaready.domain.offer.dto.JobOfferResponse;
 
 import java.util.Collections;
 import java.util.List;

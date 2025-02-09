@@ -2,44 +2,67 @@ package pl.juniorjavaready.feature;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.github.tomakehurst.wiremock.client.WireMock;
-import org.awaitility.Awaitility;
+import lombok.RequiredArgsConstructor;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.test.web.servlet.MvcResult;
+import org.springframework.test.web.servlet.ResultActions;
 import pl.juniorjavaready.BaseIntegrationTest;
 import pl.juniorjavaready.SampleJobOfferResponse;
 import pl.juniorjavaready.domain.offer.JobOffer;
-import pl.juniorjavaready.domain.offer.JobOfferFacade;
+import pl.juniorjavaready.domain.offer.JobOfferRepository;
+import pl.juniorjavaready.infrastructure.offer.scheduler.JobOfferScheduler;
 
-import java.time.Duration;
-import java.time.LocalDateTime;
 import java.util.List;
 
+import static org.assertj.core.api.AssertionsForInterfaceTypes.assertThat;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
+@RequiredArgsConstructor
 public class JobOfferIntegrationTest extends BaseIntegrationTest implements SampleJobOfferResponse {
 
     @Autowired
-    public JobOfferFacade jobOfferFacade;
+    JobOfferScheduler jobOfferScheduler;
+    @Autowired
+    JobOfferRepository jobOfferRepository;
 
     @Test
-    public void f() throws JsonProcessingException {
+    public void f() throws Exception {
 
-//step 1: there are no offers in external HTTP server (http://ec2-3-120-147-150.eu-central-1.compute.amazonaws.com:5057/offers)
+    //step 1: there are no offers in external HTTP server (http://ec2-3-120-147-150.eu-central-1.compute.amazonaws.com:5057/offers)
         wireMockServer.stubFor(WireMock.get("/offers")
                 .willReturn(WireMock.aResponse()
                         .withStatus(HttpStatus.OK.value())
                         .withHeader("Content-Type", "application/json")
-                        .withBody(bodyWithFourOffersJson())
+                        .withBody(bodyWithZeroOffersJson())
                 ));
+    //step 2: scheduler ran 1st time and made GET to external server and system added 0 offers to database
+        List<JobOffer> jobOffers = jobOfferScheduler.scheduleJobOffers();
+        assertThat(jobOffers).hasSize(4);
+
+        //step 3: user tried to get JWT token by requesting POST /token with username=someUser, password=somePassword and system returned UNAUTHORIZED(401)
+        //step 4: user made GET /offers with no jwt token and system returned UNAUTHORIZED(401)
 
 
-//        step 2: scheduler ran 1st time and made GET to external server and system added 0 offers to database
-        List<JobOffer> jobOffers = jobOfferFacade.fetchAllOffersIFNotExists();
-    }
-//        step 3: user tried to get JWT token by requesting POST /token with username=someUser, password=somePassword and system returned UNAUTHORIZED(401)
-//        step 4: user made GET /offers with no jwt token and system returned UNAUTHORIZED(401)
 //        step 5: user made POST /register with username=someUser, password=somePassword and system registered user with status OK(200)
 //        step 6: user tried to get JWT token by requesting POST /token with username=someUser, password=somePassword and system returned OK(200) and jwttoken=AAAA.BBBB.CCC
-//        step 7: user made GET /offers with header “Authorization: Bearer AAAA.BBBB.CCC” and system returned OK(200) with 0 offers
+    //step 7: user made GET /offers with header “Authorization: Bearer AAAA.BBBB.CCC” and system returned OK(200) with 0 offers
+        ResultActions perform = mockMvc.perform(get("/jobOffers/all")
+                .contentType(MediaType.APPLICATION_JSON));
+        MvcResult mvcResult = perform.andExpect(status().isOk()).andReturn();
+        String contentAsString = mvcResult.getResponse().getContentAsString();
+        JobOffer[] offers = objectMapper.readValue(contentAsString, JobOffer[].class);
+        //assertThat(offers).isEmpty();
+
+
+    }
+}
+
 //        step 8: there are 2 new offers in external HTTP server
 //        step 9: scheduler ran 2nd time and made GET to external server and system added 2 new offers with ids: 1000 and 2000 to database
 //        step 10: user made GET /offers with header “Authorization: Bearer AAAA.BBBB.CCC” and system returned OK(200) with 2 offers with ids: 1000 and 2000
@@ -52,8 +75,6 @@ public class JobOfferIntegrationTest extends BaseIntegrationTest implements Samp
 //        step 17: user made GET /offers with header “Authorization: Bearer AAAA.BBBB.CCC” and system returned OK(200) with 1 offer
 
 
-
-}
 
 
 
