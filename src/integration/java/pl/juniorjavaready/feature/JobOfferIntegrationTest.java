@@ -1,6 +1,8 @@
 package pl.juniorjavaready.feature;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.github.tomakehurst.wiremock.client.WireMock;
+import org.awaitility.Awaitility;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -8,8 +10,9 @@ import pl.juniorjavaready.BaseIntegrationTest;
 import pl.juniorjavaready.SampleJobOfferResponse;
 import pl.juniorjavaready.domain.offer.JobOffer;
 import pl.juniorjavaready.domain.offer.JobOfferFacade;
-import pl.juniorjavaready.domain.offer.dto.JobOfferResponse;
 
+import java.time.Duration;
+import java.time.LocalDateTime;
 import java.util.List;
 
 public class JobOfferIntegrationTest extends BaseIntegrationTest implements SampleJobOfferResponse {
@@ -17,24 +20,21 @@ public class JobOfferIntegrationTest extends BaseIntegrationTest implements Samp
     @Autowired
     public JobOfferFacade jobOfferFacade;
 
-//
-//    @Autowired
-//    private WeeklyWinningNumberScheduler scheduler;
-
     @Test
-    public void f() {
+    public void f() throws JsonProcessingException {
 
 //step 1: there are no offers in external HTTP server (http://ec2-3-120-147-150.eu-central-1.compute.amazonaws.com:5057/offers)
         wireMockServer.stubFor(WireMock.get("/offers")
                 .willReturn(WireMock.aResponse()
                         .withStatus(HttpStatus.OK.value())
                         .withHeader("Content-Type", "application/json")
-                        .withBody(bodyWithZeroOffersJson())
+                        .withBody(bodyWithFourOffersJson())
                 ));
-        List<JobOffer> jobOerResponses = jobOfferFacade.findAllOffers();
-    }
+
 
 //        step 2: scheduler ran 1st time and made GET to external server and system added 0 offers to database
+        List<JobOffer> jobOffers = jobOfferFacade.fetchAllOffersIFNotExists();
+    }
 //        step 3: user tried to get JWT token by requesting POST /token with username=someUser, password=somePassword and system returned UNAUTHORIZED(401)
 //        step 4: user made GET /offers with no jwt token and system returned UNAUTHORIZED(401)
 //        step 5: user made POST /register with username=someUser, password=somePassword and system registered user with status OK(200)

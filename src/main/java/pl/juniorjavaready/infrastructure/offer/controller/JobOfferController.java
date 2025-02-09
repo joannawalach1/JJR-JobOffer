@@ -7,7 +7,6 @@ import org.springframework.web.bind.annotation.*;
 import pl.juniorjavaready.domain.offer.JobOffer;
 import pl.juniorjavaready.domain.offer.JobOfferFacade;
 import pl.juniorjavaready.domain.offer.dto.JobOfferDto;
-import pl.juniorjavaready.domain.offer.dto.JobOfferResponse;
 
 import java.util.Collections;
 import java.util.List;
@@ -24,7 +23,7 @@ public class JobOfferController {
 
     @GetMapping("/all")
     public ResponseEntity<List<JobOfferDto>> getAllJobOffers() {
-        List<JobOffer> jobOfferList = jobOfferFacade.findAllOffers();
+        List<JobOffer> jobOfferList = jobOfferFacade.fetchAllOffers();
         List<JobOfferDto> jobOfferDtoList = JobOfferMapper.toDtos(jobOfferList);
         return ResponseEntity.status(HttpStatus.OK).body(jobOfferDtoList);
     }

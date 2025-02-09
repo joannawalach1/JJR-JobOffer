@@ -1,3 +1,5 @@
-offer:
-  jobRunOccurrence: "0 35 14 * * *"
-
+http:
+  offer:
+    scheduler:
+      request:
+        delay: PT30M

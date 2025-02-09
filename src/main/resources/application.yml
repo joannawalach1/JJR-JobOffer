@@ -11,9 +11,12 @@ spring:
   mvc:
     pathmatch:
       matching-strategy: ANT_PATH_MATCHER
-
+http:
+  offer:
+    scheduler:
+      request:
+       delay: PT10M
 offer:
-  jobRunOccurrence: "0 35 14 * * *"
   http:
     client:
       config:

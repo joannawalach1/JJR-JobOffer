@@ -32,9 +32,16 @@ public class JobOfferFacade {
         return savedJobOffers;
     }
 
-    public List<JobOffer> findAllOffers() {
-        List<JobOffer> allJobOffers = jobOfferRepository.findAll();
-        log.info("API response: {}", allJobOffers);
-        return allJobOffers;
+    public List<JobOffer> fetchAllOffers() {
+        return jobOfferRepository.findAll();
+    }
+
+    public List<JobOffer> fetchAllOffersIFNotExists() throws JsonProcessingException {
+        List<JobOffer> allJobOffers = fetchAllOffers();
+
+        return allJobOffers.stream()
+                .filter(jobOffer -> !jobOffer.offerUrl().isEmpty())
+                .filter(jobOffer -> !jobOfferRepository.existsByOfferUrl(jobOffer.offerUrl()))
+                .toList();
     }
 }
