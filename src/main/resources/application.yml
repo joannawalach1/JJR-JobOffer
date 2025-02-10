@@ -29,3 +29,15 @@ offer:
          readTimeout: 1000
          uri: http://ec2-3-120-147-150.eu-central-1.compute.amazonaws.com:9090/
 
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health, info, metrics, prometheus
+  metrics:
+    export:
+      prometheus:
+        enabled: true
+  endpoint:
+    health:
+      show-details: always

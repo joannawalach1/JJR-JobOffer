@@ -136,6 +136,20 @@
             <version>3.0.18</version>
             <scope>test</scope>
         </dependency>
+
+        <!-- Actuator dla metryk -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-actuator</artifactId>
+        </dependency>
+
+        <!-- Micrometer Prometheus dla eksportu metryk -->
+        <dependency>
+            <groupId>io.micrometer</groupId>
+            <artifactId>micrometer-registry-prometheus</artifactId>
+        </dependency>
+
+
     </dependencies>
 
 
