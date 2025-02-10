@@ -58,8 +58,6 @@ public class JobOfferIntegrationTest extends BaseIntegrationTest implements Samp
         String contentAsString = mvcResult.getResponse().getContentAsString();
         JobOffer[] offers = objectMapper.readValue(contentAsString, JobOffer[].class);
         //assertThat(offers).isEmpty();
-
-
     }
 }
 
